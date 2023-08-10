@@ -10,27 +10,27 @@ IGNORE = ['VolcanoEntrance']
 if not os.path.exists("output"):
     os.mkdir("output")
 
-Farm = TMXpy(
+Start = TMXpy(
     [Path(MAP_PATH), Path.joinpath(Path(os.getcwd()), "sheets")],
     path=Path.joinpath(Path(MAP_PATH), "Farm.tmx")
 )
 
-Farm.generateGIDDict()
-Farm.addTilesheet("warp_tilesheet", "WarpTilesheet", {})
+Start.generateGIDDict()
+Start.addTilesheet("warp_tilesheet", "WarpTilesheet", {})
 
-Farm.generateGIDDict()
+Start.generateGIDDict()
 
-Farm_warps = Farm.parseWarps()
+Start_warps = Start.parseWarps()
 
-img = Image.new("RGBA", (Farm.tmxDimensions[0] * 16, Farm.tmxDimensions[1] * 16), (0, 0, 0, 0))
+img = Image.new("RGBA", (Start.tmxDimensions[0] * 16, Start.tmxDimensions[1] * 16), (0, 0, 0, 0))
 data = {}
 #warps = {}
 
-#imgs['Farm'] = Farm.renderAllLayers("Paths")
-#warps['Farm'] = Farm_warps
+#imgs['Start'] = Start.renderAllLayers("Paths")
+#warps['Start'] = Start_warps
 data['Farm'] = {
-    "img": Farm.renderAllLayers(["Paths"]),
-    "warps": Farm_warps
+    "img": Start.renderAllLayers(["Paths"]),
+    "warps": Start_warps
 }
 
 def loopWarps(map_warps, map, mapName):
@@ -51,13 +51,13 @@ def loopWarps(map_warps, map, mapName):
 
 
         print(warp, x, y, map.tmxDimensions)
-        #print(Farm.maxGID)
+        #print(Start.maxGID)
 
         """
         map.setTile(
             x,
             y,
-            str(Farm.maxGID),
+            str(Start.maxGID),
             layerName="Front"
         )
         """
@@ -89,7 +89,7 @@ def loopWarps(map_warps, map, mapName):
 
         loopWarps(Destination_warps, Destination, warp["destination"])
 
-loopWarps(Farm_warps, Farm, "Farm")
+loopWarps(Start_warps, Start, "Start")
 
 print("Saving images...")
 for imgName in data:
