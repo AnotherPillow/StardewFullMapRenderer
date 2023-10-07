@@ -196,4 +196,6 @@ loop()
 for imgName in data:
     data[imgName]["img"].save(f"output/{imgName}_2.png")
 
+newImg = newImg.crop(newImg.getbbox())
+
 newImg.save("output/combined.png")
