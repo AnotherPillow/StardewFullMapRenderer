@@ -155,7 +155,7 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, ou
                     "br": (midpoint[0] + data[imgName]["img"].width, midpoint[1] + data[imgName]["img"].height) #bottom right
                 }
 
-            wtimage = Image.open("sheets/warp_tilesheet.png")
+            wtimage = Image.open(os.path.join(dir_path, "sheets/warp_tilesheet.png"))
 
             for warp in data[imgName]["warps"]:
                 if warp["destination"] in covered_maps or warp["destination"] in IGNORE:
