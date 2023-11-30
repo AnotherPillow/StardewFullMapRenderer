@@ -13,8 +13,10 @@ if not os.path.exists("output"):
 def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None):
     if inputPath != None:
         inputPath = Path.joinpath(Path(MAP_PATH), inputMapName)
+    else:
+        inputPath = os.getcwd() + '\\' + inputMapName
     Start = TMXpy(
-        [Path(MAP_PATH), Path.joinpath(Path(os.getcwd()), "sheets")],
+        [Path(MAP_PATH), Path.joinpath(Path("./sheets"))],
         path=Path(str(inputPath))
     )
 
