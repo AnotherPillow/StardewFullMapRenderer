@@ -7,16 +7,19 @@ from typing import cast
 MAP_PATH = 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stardew Valley\\Content (unpacked)\\Maps'
 IGNORE = ['VolcanoEntrance']
 
-if not os.path.exists("output"):
-    os.mkdir("output")
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
-def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None):
+def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, outputPrefix: str = ''):
+    outputFolder = os.path.join(outputPrefix, 'output')
+    if not os.path.exists(outputFolder ):
+        os.mkdir(outputFolder )
     if inputPath != None:
         inputPath = Path.joinpath(Path(MAP_PATH), inputMapName)
     else:
-        inputPath = os.getcwd() + '\\' + inputMapName
+        inputPath = dir_path + '\\' + inputMapName
+    
     Start = TMXpy(
-        [Path(MAP_PATH), Path.joinpath(Path("./sheets"))],
+        [Path(MAP_PATH), Path.joinpath(Path(dir_path), 'sheets')],
         path=Path(str(inputPath))
     )
 
@@ -83,8 +86,8 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None):
             Destination_warps = Destination.parseWarps()
             #imgs[warp["destination"]] = Destination.renderAllLayers("Paths")
             #warps[warp["destination"]] = Destination_warps
-            if os.path.exists(f'output/{warp["destination"]}.png'):
-                i = Image.open(f'output/{warp["destination"]}.png')
+            if os.path.exists(f'{outputFolder}/{warp["destination"]}.png'):
+                i = Image.open(f'{outputFolder}/{warp["destination"]}.png')
             else:
                 i = Destination.renderAllLayers(["Paths"])
             data[warp["destination"]] = {
@@ -98,7 +101,7 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None):
 
     print("Saving images...")
     for imgName in data:
-        data[imgName]["img"].save(f"output/{imgName}.png")
+        data[imgName]["img"].save(f"{outputFolder}/{imgName}.png")
 
     #figure out how wide it would be if we joined them all together, as well as how tall it would be if we joined together where the warps are
     #then create a new image with those dimensions
@@ -203,7 +206,7 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None):
 
     newImg = newImg.crop(newImg.getbbox())
 
-    newImg.save("output/combined.png")
+    newImg.save(f"{outputFolder}/combined.png")
 
 
 if __name__ == '__main__':
