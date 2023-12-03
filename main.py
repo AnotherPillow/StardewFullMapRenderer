@@ -7,6 +7,13 @@ from typing import cast
 MAP_PATH = 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stardew Valley\\Content (unpacked)\\Maps'
 IGNORE = ['VolcanoEntrance']
 
+offsets = {
+    'BusStop': (
+        0, #positive is right, negative is left
+        16), #positive is down, negative is up
+    'Railroad': (16, 0),
+}
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, outputPrefix: str = ''):
@@ -129,13 +136,6 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, ou
     midpoint = (int(newWidth / 2), int(newHeight / 2))
 
     covered_maps = []
-
-    offsets = {
-        'BusStop': (
-            0, #positive is right, negative is left
-            16), #positive is down, negative is up
-        'Railroad': (16, 0),
-    }
 
     def loop():
         for imgName in data:
