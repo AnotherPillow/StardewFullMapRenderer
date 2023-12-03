@@ -84,7 +84,7 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, ou
                     path=Path.joinpath(Path(MAP_PATH), fp + ".tmx")
                 )
             except:
-                print(f'Failed to create {MAP_PATH}, skipping...')
+                print(f'Failed to create {MAP_PATH}/{fp}.tmx, skipping...')
                 continue
 
 
@@ -165,7 +165,7 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, ou
             wtimage = Image.open(os.path.join(dir_path, "sheets/warp_tilesheet.png"))
 
             for warp in data[imgName]["warps"]:
-                if warp["destination"] in covered_maps or warp["destination"] in IGNORE:
+                if warp["destination"] in covered_maps or warp["destination"] in IGNORE or warp["destination"] not in data:
                     continue
 
                 data[warp["destination"]]["img"].paste(wtimage, (warp["dest_x"] * 16, warp["dest_y"] * 16))
@@ -209,7 +209,7 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, ou
     loop()
 
     for imgName in data:
-        data[imgName]["img"].save(f"output/{imgName}_2.png")
+        data[imgName]["img"].save(f"{outputFolder}/{imgName}_2.png")
 
     newImg = newImg.crop(newImg.getbbox())
 
