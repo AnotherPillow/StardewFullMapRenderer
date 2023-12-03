@@ -11,8 +11,9 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, outputPrefix: str = ''):
     outputFolder = os.path.join(outputPrefix, 'output')
-    if not os.path.exists(outputFolder ):
-        os.mkdir(outputFolder )
+    if not os.path.exists(outputFolder):
+        os.mkdir(outputFolder)
+
     if inputPath != None:
         inputPath = Path.joinpath(Path(MAP_PATH), inputMapName)
     else:
@@ -75,10 +76,16 @@ def main(inputMapName: str = 'Farm.tmx', inputPath: str | None | Path = None, ou
             if warp["destination"] in data or warp["destination"] in IGNORE:
                 continue
             
-            Destination = TMXpy(
-                [Path(MAP_PATH), Path.joinpath(Path(os.getcwd()), "sheets")],
-                path=Path.joinpath(Path(MAP_PATH), fp + ".tmx")
-            )
+            Destination: TMXpy | None = None
+            
+            try:
+                Destination = TMXpy(
+                    [Path(MAP_PATH), Path.joinpath(Path(os.getcwd()), "sheets")],
+                    path=Path.joinpath(Path(MAP_PATH), fp + ".tmx")
+                )
+            except:
+                print(f'Failed to create {MAP_PATH}, skipping...')
+                continue
 
 
 
